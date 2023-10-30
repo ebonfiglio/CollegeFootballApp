@@ -46,7 +46,7 @@ namespace CollegeFootballApp.Application.Handlers
 
         private async Task<Game> MapDtoToGame(GameDto dto)
         {
-            var game = new Game
+            Game game = new() 
             {
                 Id = dto.Id,
                 Season = dto.Season,
@@ -59,7 +59,7 @@ namespace CollegeFootballApp.Application.Handlers
                 ConferenceGame = dto.ConferenceGame,
                 Attendance = dto.Attendance,
                 VenueId = dto.VenueId,
-                ExcitementIndex = (float)dto.ExcitementIndex,
+                ExcitementIndex = dto.ExcitementIndex.HasValue ? (float)dto.ExcitementIndex : 0,
                 Highlights = dto.Highlights,
                 Notes = dto.Notes
             };

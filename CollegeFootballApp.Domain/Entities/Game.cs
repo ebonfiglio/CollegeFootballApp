@@ -17,7 +17,7 @@ namespace CollegeFootballApp.Domain.Entities
         public bool Completed { get; set; }
         public bool NeutralSite { get; set; }
         public bool ConferenceGame { get; set; }
-        public int Attendance { get; set; }
+        public int? Attendance { get; set; }
         public int VenueId { get; set; }
         public Venue Venue { get; set; }
         public int HomeTeamConferenceId { get; set; }

@@ -1,6 +1,7 @@
 ﻿using CollegeFootballApp.Application.Models.Dtos;
 using CollegeFootballApp.Application.Services;
 using CsvHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Formats.Asn1;
@@ -16,8 +17,9 @@ namespace CollegeFootballApp.Infrastructure.Services
         public List<GameDto> ReadCsvFile(string filePath)
         {
             using var reader = new StreamReader(filePath);
-            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-            return csv.GetRecords<GameDto>().ToList();
+            var jsonString = reader.ReadToEnd();
+            var data = JsonConvert.DeserializeObject<List<GameDto>>(jsonString);
+            return data;
         }
     }
 }

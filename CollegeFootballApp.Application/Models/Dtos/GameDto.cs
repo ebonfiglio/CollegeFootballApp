@@ -17,7 +17,7 @@ namespace CollegeFootballApp.Application.Models.Dtos
         public bool Completed { get; set; }
         public bool NeutralSite { get; set; }
         public bool ConferenceGame { get; set; }
-        public int Attendance { get; set; }
+        public int? Attendance { get; set; }
         public int VenueId { get; set; }
         public string Venue { get; set; }
         public int HomeId { get; set; }
@@ -27,8 +27,8 @@ namespace CollegeFootballApp.Application.Models.Dtos
         public int HomePoints { get; set; }
         public List<int> HomeLineScores { get; set; }
         public double HomePostWinProb { get; set; }
-        public int HomePregameElo { get; set; }
-        public int HomePostgameElo { get; set; }
+        public int? HomePregameElo { get; set; }
+        public int? HomePostgameElo { get; set; }
         public int AwayId { get; set; }
         public string AwayTeam { get; set; }
         public string AwayConference { get; set; }
@@ -38,7 +38,7 @@ namespace CollegeFootballApp.Application.Models.Dtos
         public double AwayPostWinProb { get; set; }
         public int? AwayPregameElo { get; set; }
         public int? AwayPostgameElo { get; set; }
-        public double ExcitementIndex { get; set; }
+        public double? ExcitementIndex { get; set; }
         public string Highlights { get; set; }
         public string Notes { get; set; }
     }
