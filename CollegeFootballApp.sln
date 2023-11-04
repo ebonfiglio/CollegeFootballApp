@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeFootballApp.Blazor",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeFootballApp.Console", "CollegeFootballApp.Console\CollegeFootballApp.Console.csproj", "{A850E824-7EBC-4238-B4C9-EA7DF7DD0410}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollegeFootballApp.Domain", "CollegeFootballApp.Domain\CollegeFootballApp.Domain.csproj", "{4ED7AED1-464A-4375-9DF9-A73649ABD125}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeFootballApp.Domain", "CollegeFootballApp.Domain\CollegeFootballApp.Domain.csproj", "{4ED7AED1-464A-4375-9DF9-A73649ABD125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollegeFootballApp.Application", "CollegeFootballApp.Application\CollegeFootballApp.Application.csproj", "{347C3FE4-B5BF-4960-80A7-5270B4893E91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeFootballApp.Application", "CollegeFootballApp.Application\CollegeFootballApp.Application.csproj", "{347C3FE4-B5BF-4960-80A7-5270B4893E91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollegeFootballApp.Infrastructure", "CollegeFootballApp.Infrastructure\CollegeFootballApp.Infrastructure.csproj", "{E5B75BD8-4354-4D61-B43A-24FCB7E15E5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeFootballApp.Infrastructure", "CollegeFootballApp.Infrastructure\CollegeFootballApp.Infrastructure.csproj", "{E5B75BD8-4354-4D61-B43A-24FCB7E15E5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollegeFootballApp.Shared", "CollegeFootballApp.Shared\CollegeFootballApp.Shared.csproj", "{90490804-BADC-4325-972F-CC8E1C5FBD18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{E5B75BD8-4354-4D61-B43A-24FCB7E15E5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5B75BD8-4354-4D61-B43A-24FCB7E15E5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5B75BD8-4354-4D61-B43A-24FCB7E15E5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90490804-BADC-4325-972F-CC8E1C5FBD18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90490804-BADC-4325-972F-CC8E1C5FBD18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90490804-BADC-4325-972F-CC8E1C5FBD18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90490804-BADC-4325-972F-CC8E1C5FBD18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -19,7 +19,7 @@ namespace CollegeFootballApp.Infrastructure
         {
             // Defining primary keys
             modelBuilder.Entity<Conference>()
-                .HasKey(c => c.Id);
+                .HasKey(c => c.Name);
 
             modelBuilder.Entity<Game>()
                 .HasKey(g => g.Id);
@@ -28,7 +28,7 @@ namespace CollegeFootballApp.Infrastructure
                 .HasKey(t => t.Id);
 
             modelBuilder.Entity<TeamConference>()
-                .HasKey(tc => new { tc.TeamId, tc.ConferenceId });
+                .HasKey(tc => new { tc.TeamId, tc.ConferenceName });
 
             modelBuilder.Entity<Venue>()
                 .HasKey(v => v.Id);
@@ -45,14 +45,14 @@ namespace CollegeFootballApp.Infrastructure
             modelBuilder.Entity<Game>()
                 .HasOne(g => g.HomeTeamConference)
                 .WithMany()
-                .HasForeignKey(g => new { g.HomeTeamId, g.HomeConferenceId })
+                .HasForeignKey(g => new { g.HomeId, g.HomeConferenceName })
                 .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete/update
 
             // Game to TeamConference relationship for AwayTeamConference
             modelBuilder.Entity<Game>()
                 .HasOne(g => g.AwayTeamConference)
                 .WithMany()
-                .HasForeignKey(g => new { g.AwayTeamId, g.AwayConferenceId })
+                .HasForeignKey(g => new { g.AwayTeamId, g.AwayConferenceName })
                 .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete/update
 
             // TeamConference relationships
@@ -64,7 +64,7 @@ namespace CollegeFootballApp.Infrastructure
             modelBuilder.Entity<TeamConference>()
                 .HasOne(tc => tc.Conference)
                 .WithMany()
-                .HasForeignKey(tc => tc.ConferenceId);
+                .HasForeignKey(tc => tc.ConferenceName);
 
             // Team to Venue relationship (Location)
             modelBuilder.Entity<Team>()

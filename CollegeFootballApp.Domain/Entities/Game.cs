@@ -22,13 +22,13 @@ namespace CollegeFootballApp.Domain.Entities
         public Venue Venue { get; set; }
 
         // Composite foreign keys for HomeTeamConference
-        public int HomeTeamId { get; set; }
-        public int HomeConferenceId { get; set; }
+        public int HomeId { get; set; }
+        public string HomeConferenceName { get; set; }
         public TeamConference HomeTeamConference { get; set; }
 
         // Composite foreign keys for AwayTeamConference
         public int AwayTeamId { get; set; }
-        public int AwayConferenceId { get; set; }
+        public string AwayConferenceName { get; set; }
         public TeamConference AwayTeamConference { get; set; }
         public float? ExcitementIndex { get; set; }
         public string? Highlights { get; set; }

@@ -4,28 +4,23 @@ using CollegeFootballApp.Application.Models.Dtos;
 using CollegeFootballApp.Application.Services;
 using CollegeFootballApp.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollegeFootballApp.Application.Handlers
 {
     public class UploadGameDataFromCsvCommandHandler : IRequestHandler<UploadGameDataFromCsvCommand, bool>
     {
-        private readonly ICsvFileService _csvFileService;
+        private readonly IReadFileService _jsonFileService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UploadGameDataFromCsvCommandHandler(ICsvFileService csvFileService, IUnitOfWork unitOfWork)
+        public UploadGameDataFromCsvCommandHandler(IReadFileService jsonFileService, IUnitOfWork unitOfWork)
         {
-            _csvFileService = csvFileService;
+            _jsonFileService = jsonFileService;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<bool> Handle(UploadGameDataFromCsvCommand request, CancellationToken cancellationToken)
         {
-            List<GameDto> gameDataDtos = _csvFileService.ReadCsvFile(request.FilePath);
+            List<GameDto> gameDataDtos = _jsonFileService.ReadFile(request.FilePath);
 
             await ProcessGamesFromJson(gameDataDtos);
 
@@ -46,7 +41,7 @@ namespace CollegeFootballApp.Application.Handlers
 
         private async Task<Game> MapDtoToGame(GameDto dto)
         {
-            Game game = new() 
+            Game game = new()
             {
                 Id = dto.Id,
                 Season = dto.Season,
@@ -107,7 +102,7 @@ namespace CollegeFootballApp.Application.Handlers
                     await _unitOfWork.ConferenceRepository.Add(homeConference);
                 }
 
-                homeTeamConference = new TeamConference { TeamId = dto.HomeId, ConferenceId = homeConference.Id };
+                homeTeamConference = new TeamConference { TeamId = dto.HomeId, ConferenceName = homeConference.Name };
                 await _unitOfWork.TeamConferenceRepository.Add(homeTeamConference);
             }
             return homeTeamConference;
@@ -137,7 +132,7 @@ namespace CollegeFootballApp.Application.Handlers
                     await _unitOfWork.ConferenceRepository.Add(AwayConference);
                 }
 
-                AwayTeamConference = new TeamConference { TeamId = dto.AwayId, ConferenceId = AwayConference.Id };
+                AwayTeamConference = new TeamConference { TeamId = dto.AwayId, ConferenceName = AwayConference.Name };
                 await _unitOfWork.TeamConferenceRepository.Add(AwayTeamConference);
             }
             return AwayTeamConference;

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CollegeFootballApp.Application\CollegeFootballApp.Application.csproj" />
+    <ProjectReference Include="..\CollegeFootballApp.Shared\CollegeFootballApp.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

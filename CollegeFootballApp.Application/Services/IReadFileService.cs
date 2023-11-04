@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace CollegeFootballApp.Application.Services
 {
-    public interface ICsvFileService
+    public interface IReadFileService
     {
-        List<GameDto> ReadCsvFile(string filePath);
+        List<GameDto> ReadFile(string filePath);
     }
 }

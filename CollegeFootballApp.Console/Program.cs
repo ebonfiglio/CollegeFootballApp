@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 var services = new ServiceCollection();
 
 services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UploadGameDataFromCsvCommandHandler).Assembly));
-services.AddTransient<ICsvFileService, CsvFileService>();
+services.AddTransient<IReadFileService, JsonFileService>();
 services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -31,8 +31,6 @@ services.AddDbContext<ApplicationDbContext>(options =>
 
 var serviceProvider = services.BuildServiceProvider();
 var mediator = serviceProvider.GetService<IMediator>();
-
-
 
 while (true)
 {
