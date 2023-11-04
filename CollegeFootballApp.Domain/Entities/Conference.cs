@@ -10,9 +10,9 @@ namespace CollegeFootballApp.Domain.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string ShortName { get; set; }
-        public string Abbreviation { get; set; }
-        public string Classification { get; set; }
+        public string? ShortName { get; set; }
+        public string? Abbreviation { get; set; }
+        public string? Classification { get; set; }
     }
 
 }

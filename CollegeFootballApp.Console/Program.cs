@@ -8,8 +8,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq.Expressions;
-using System.Reflection;
 
 var services = new ServiceCollection();
 

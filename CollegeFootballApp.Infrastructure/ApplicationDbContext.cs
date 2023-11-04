@@ -41,16 +41,19 @@ namespace CollegeFootballApp.Infrastructure
                 .WithMany()
                 .HasForeignKey(g => g.VenueId);
 
-            // Game to TeamConference relationship
+            // Game to TeamConference relationship for HomeTeamConference
             modelBuilder.Entity<Game>()
                 .HasOne(g => g.HomeTeamConference)
                 .WithMany()
-                .HasForeignKey(g => g.HomeTeamConferenceId);
+                .HasForeignKey(g => new { g.HomeTeamId, g.HomeConferenceId })
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete/update
 
+            // Game to TeamConference relationship for AwayTeamConference
             modelBuilder.Entity<Game>()
                 .HasOne(g => g.AwayTeamConference)
                 .WithMany()
-                .HasForeignKey(g => g.AwayTeamConferenceId);
+                .HasForeignKey(g => new { g.AwayTeamId, g.AwayConferenceId })
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete/update
 
             // TeamConference relationships
             modelBuilder.Entity<TeamConference>()
