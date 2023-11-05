@@ -82,7 +82,6 @@ namespace CollegeFootballApp.Infrastructure
                 .WithMany()
                 .HasForeignKey(tc => tc.ConferenceName);
 
-
             base.OnModelCreating(modelBuilder);
         }
     }

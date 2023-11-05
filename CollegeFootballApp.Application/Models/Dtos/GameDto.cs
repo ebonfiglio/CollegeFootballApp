@@ -33,7 +33,7 @@ namespace CollegeFootballApp.Application.Models.Dtos
         public int? Attendance { get; set; }
 
         [JsonProperty("Venue Id")]
-        public int VenueId { get; set; }
+        public int? VenueId { get; set; }
 
         public string Venue { get; set; }
 

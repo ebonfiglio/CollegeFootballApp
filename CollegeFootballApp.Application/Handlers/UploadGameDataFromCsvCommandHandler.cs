@@ -32,49 +32,75 @@ namespace CollegeFootballApp.Application.Handlers
             List<Game> games = new();
             foreach (GameDto dto in gameDTOs)
             {
-                Game game = await MapDtoToGame(dto);
-                await _unitOfWork.GameRepository.AddAsync(game);
-                _unitOfWork.SaveChanges();
-                //games.Add(game);
+               await SaveGame(dto);
             }
-            //_unitOfWork.GameRepository.BulkInsert(games);
-            //_unitOfWork.SaveChanges();
         }
 
-        private async Task<Game> MapDtoToGame(GameDto dto)
+        private async Task SaveGame(GameDto dto)
         {
-            Game game = new()
+            Game game = await _unitOfWork.GameRepository.GetByIdAsync(dto.Id);
+
+            if (game == null)
             {
-                Id = dto.Id,
-                Season = dto.Season,
-                Week = dto.Week,
-                SeasonType = dto.SeasonType,
-                StartDate = dto.StartDate,
-                StartTimeTbd = dto.StartTimeTbd,
-                Completed = dto.Completed,
-                NeutralSite = dto.NeutralSite,
-                ConferenceGame = dto.ConferenceGame,
-                Attendance = dto.Attendance,
-                VenueId = dto.VenueId,
-                ExcitementIndex = dto.ExcitementIndex.HasValue ? (float)dto.ExcitementIndex : 0,
-                Highlights = dto.Highlights,
-                Notes = dto.Notes
-            };
+                game = new();
+                game.Id = dto.Id;
+                game.Season = dto.Season;
+                game.Week = dto.Week;
+                game.SeasonType = dto.SeasonType;
+                game.StartDate = dto.StartDate;
+                game.StartTimeTbd = dto.StartTimeTbd;
+                game.Completed = dto.Completed;
+                game.NeutralSite = dto.NeutralSite;
+                game.ConferenceGame = dto.ConferenceGame;
+                game.Attendance = dto.Attendance;
+                game.VenueId = dto.VenueId ?? -1;
+                game.ExcitementIndex = dto.ExcitementIndex.HasValue ? (float)dto.ExcitementIndex : 0;
+                game.Highlights = dto.Highlights;
+                game.Notes = dto.Notes;
 
-            game.Venue = await ProcessVenue(dto);
-            game.HomeTeamConference = await ProcessHomeTeamConference(dto);
-            game.AwayTeamConference = await ProcessAwayTeamConference(dto, game.HomeTeamConference?.Conference);
+                game.Venue = await ProcessVenue(dto);
+                game.HomeTeamConference = await ProcessHomeTeamConference(dto);
+                game.AwayTeamConference = await ProcessAwayTeamConference(dto, game.HomeTeamConference?.Conference);
 
-            return game;
+                await _unitOfWork.GameRepository.AddAsync(game);
+                _unitOfWork.SaveChanges();
+            }
+            else
+            {
+                game.Season = dto.Season;
+                game.Week = dto.Week;
+                game.SeasonType = dto.SeasonType;
+                game.StartDate = dto.StartDate;
+                game.StartTimeTbd = dto.StartTimeTbd;
+                game.Completed = dto.Completed;
+                game.NeutralSite = dto.NeutralSite;
+                game.ConferenceGame = dto.ConferenceGame;
+                game.Attendance = dto.Attendance;
+                game.VenueId = dto.VenueId ?? -1;
+                game.ExcitementIndex = dto.ExcitementIndex.HasValue ? (float)dto.ExcitementIndex : 0;
+                game.Highlights = dto.Highlights;
+                game.Notes = dto.Notes;
+
+                game.Venue = await ProcessVenue(dto);
+                game.HomeTeamConference = await ProcessHomeTeamConference(dto);
+                game.AwayTeamConference = await ProcessAwayTeamConference(dto, game.HomeTeamConference?.Conference);
+
+                _unitOfWork.SaveChanges();
+            }
         }
 
         private async Task<Venue> ProcessVenue(GameDto dto)
         {
             // Handling Venue association
+            if(dto.VenueId == null)
+            {
+                dto.VenueId = -1;
+            }
+
             Venue venue = await _unitOfWork.VenueRepository.FindSingleAsync(v => v.Id == dto.VenueId);
             if (venue == null)
             {
-                venue = new Venue { Id = dto.VenueId, Name = dto.Venue };
+                venue = new Venue { Id = dto.VenueId ?? -1, Name = dto.Venue };
                 await _unitOfWork.VenueRepository.AddAsync(venue);
             }
             _unitOfWork.SaveChanges();
@@ -102,7 +128,7 @@ namespace CollegeFootballApp.Application.Handlers
                 Conference homeConference = await _unitOfWork.ConferenceRepository.FindSingleAsync(c => c.Name == dto.HomeConference);
                 if (homeConference == null)
                 {
-                    homeConference = new Conference { Name = dto.HomeConference };
+                    homeConference = new Conference { Name = string.IsNullOrEmpty(dto.HomeConference) ? "UNKNOWN" : dto.HomeConference  };
                     await _unitOfWork.ConferenceRepository.AddAsync(homeConference);
                     _unitOfWork.SaveChanges();
                 }
@@ -138,7 +164,7 @@ namespace CollegeFootballApp.Application.Handlers
                 awayConference = await _unitOfWork.ConferenceRepository.FindSingleAsync(c => c.Name == dto.AwayConference);
                 if (awayConference == null)
                 {
-                    awayConference = new Conference { Name = dto.AwayConference };
+                    awayConference = new Conference { Name = string.IsNullOrEmpty(dto.AwayConference) ? "UNKNOWN" : dto.AwayConference };
                     await _unitOfWork.ConferenceRepository.AddAsync(awayConference);
                     _unitOfWork.SaveChanges();
                 }
