@@ -10,5 +10,10 @@ namespace CollegeFootballApp.Application.Commands
     public class UploadGameDataFromCsvCommand : IRequest<bool>
     {
         public string FilePath { get; set; }
+
+        public UploadGameDataFromCsvCommand(string filePath)
+        {
+            FilePath = filePath;
+        }
     }
 }

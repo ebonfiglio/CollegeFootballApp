@@ -20,7 +20,7 @@ namespace CollegeFootballApp.Application.Handlers
 
         public async Task<bool> Handle(UploadGameDataFromCsvCommand request, CancellationToken cancellationToken)
         {
-            List<GameDto> gameDataDtos = _jsonFileService.ReadFile(request.FilePath);
+            List<GameDto> gameDataDtos = _jsonFileService.ReadFile<GameDto>(request.FilePath);
 
             await ProcessGamesFromJson(gameDataDtos);
 
@@ -33,7 +33,7 @@ namespace CollegeFootballApp.Application.Handlers
             foreach (GameDto dto in gameDTOs)
             {
                 Game game = await MapDtoToGame(dto);
-                await _unitOfWork.GameRepository.Add(game);
+                await _unitOfWork.GameRepository.AddAsync(game);
                 _unitOfWork.SaveChanges();
                 //games.Add(game);
             }
@@ -71,11 +71,11 @@ namespace CollegeFootballApp.Application.Handlers
         private async Task<Venue> ProcessVenue(GameDto dto)
         {
             // Handling Venue association
-            Venue venue = await _unitOfWork.VenueRepository.FindSingle(v => v.Id == dto.VenueId);
+            Venue venue = await _unitOfWork.VenueRepository.FindSingleAsync(v => v.Id == dto.VenueId);
             if (venue == null)
             {
                 venue = new Venue { Id = dto.VenueId, Name = dto.Venue };
-                await _unitOfWork.VenueRepository.Add(venue);
+                await _unitOfWork.VenueRepository.AddAsync(venue);
             }
             _unitOfWork.SaveChanges();
             return venue;
@@ -84,31 +84,31 @@ namespace CollegeFootballApp.Application.Handlers
         private async Task<TeamConference> ProcessHomeTeamConference(GameDto dto)
         {
             // Handling Home TeamConference association
-            TeamConference homeTeamConference = await _unitOfWork.TeamConferenceRepository.FindSingle(
+            TeamConference homeTeamConference = await _unitOfWork.TeamConferenceRepository.FindSingleAsync(
      tc => tc.TeamId == dto.HomeId && tc.Conference.Name == dto.HomeConference,
      tc => tc.Team,
      tc => tc.Conference);
 
             if (homeTeamConference == null)
             {
-                Team homeTeam = await _unitOfWork.TeamRepository.FindSingle(t => t.Id == dto.HomeId);
+                Team homeTeam = await _unitOfWork.TeamRepository.FindSingleAsync(t => t.Id == dto.HomeId);
                 if (homeTeam == null)
                 {
                     homeTeam = new Team { Id = dto.HomeId, School = dto.HomeTeam };
-                    await _unitOfWork.TeamRepository.Add(homeTeam);
+                    await _unitOfWork.TeamRepository.AddAsync(homeTeam);
                     _unitOfWork.SaveChanges();
                 }
 
-                Conference homeConference = await _unitOfWork.ConferenceRepository.FindSingle(c => c.Name == dto.HomeConference);
+                Conference homeConference = await _unitOfWork.ConferenceRepository.FindSingleAsync(c => c.Name == dto.HomeConference);
                 if (homeConference == null)
                 {
                     homeConference = new Conference { Name = dto.HomeConference };
-                    await _unitOfWork.ConferenceRepository.Add(homeConference);
+                    await _unitOfWork.ConferenceRepository.AddAsync(homeConference);
                     _unitOfWork.SaveChanges();
                 }
 
                 homeTeamConference = new TeamConference { TeamId = dto.HomeId, ConferenceName = homeConference.Name };
-                await _unitOfWork.TeamConferenceRepository.Add(homeTeamConference);
+                await _unitOfWork.TeamConferenceRepository.AddAsync(homeTeamConference);
                 _unitOfWork.SaveChanges();
             }
             return homeTeamConference;
@@ -117,11 +117,11 @@ namespace CollegeFootballApp.Application.Handlers
         private async Task<TeamConference> ProcessAwayTeamConference(GameDto dto, Conference homeConference)
         {
             // Always handle the away team logic.
-            Team awayTeam = await _unitOfWork.TeamRepository.FindSingle(t => t.Id == dto.AwayId);
+            Team awayTeam = await _unitOfWork.TeamRepository.FindSingleAsync(t => t.Id == dto.AwayId);
             if (awayTeam == null)
             {
                 awayTeam = new Team { Id = dto.AwayId, School = dto.AwayTeam };
-                await _unitOfWork.TeamRepository.Add(awayTeam);
+                await _unitOfWork.TeamRepository.AddAsync(awayTeam);
                 _unitOfWork.SaveChanges();
             }
 
@@ -135,23 +135,23 @@ namespace CollegeFootballApp.Application.Handlers
             else
             {
                 // If different, fetch or create the away conference.
-                awayConference = await _unitOfWork.ConferenceRepository.FindSingle(c => c.Name == dto.AwayConference);
+                awayConference = await _unitOfWork.ConferenceRepository.FindSingleAsync(c => c.Name == dto.AwayConference);
                 if (awayConference == null)
                 {
                     awayConference = new Conference { Name = dto.AwayConference };
-                    await _unitOfWork.ConferenceRepository.Add(awayConference);
+                    await _unitOfWork.ConferenceRepository.AddAsync(awayConference);
                     _unitOfWork.SaveChanges();
                 }
             }
 
             // Create or find the away team conference association.
-            TeamConference awayTeamConference = await _unitOfWork.TeamConferenceRepository.FindSingle(
+            TeamConference awayTeamConference = await _unitOfWork.TeamConferenceRepository.FindSingleAsync(
                 tc => tc.TeamId == dto.AwayId && tc.ConferenceName == awayConference.Name);
 
             if (awayTeamConference == null)
             {
                 awayTeamConference = new TeamConference { TeamId = dto.AwayId, ConferenceName = awayConference.Name };
-                await _unitOfWork.TeamConferenceRepository.Add(awayTeamConference);
+                await _unitOfWork.TeamConferenceRepository.AddAsync(awayTeamConference);
                 _unitOfWork.SaveChanges();
             }
 

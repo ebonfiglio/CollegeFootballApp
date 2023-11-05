@@ -15,13 +15,13 @@ namespace CollegeFootballApp.Infrastructure.Repositories
         {
             _context = context;
         }
-        public virtual async Task<T> Add(T entity)
+        public virtual async Task<T> AddAsync(T entity)
         {
             var result = await _context.AddAsync(entity);
             return result.Entity;
         }
 
-        public virtual async Task<IEnumerable<T>> All()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await Task.Run(() => _context.Set<T>());
         }
@@ -31,24 +31,24 @@ namespace CollegeFootballApp.Infrastructure.Repositories
             _context.Remove(entity);
         }
 
-        public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
+        public virtual async Task<IEnumerable<T>> FindCollectionAsync(Expression<Func<T, bool>> predicate)
         {
             return await Task.Run(() => _context.Set<T>()
                 .AsQueryable()
                 .Where(predicate));
         }
 
-        public virtual async Task<T> FindSingle(Expression<Func<T, bool>> predicate)
+        public virtual async Task<T> FindSingleAsync(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>()
                 .FirstOrDefaultAsync(predicate);
         }
 
-        public virtual async Task<T> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        public virtual async Task<T> FindSingleAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
         {
-            var query = _context.Set<T>().AsQueryable();
+            IQueryable<T> query = _context.Set<T>().AsQueryable();
 
-            foreach (var includeProperty in includeProperties)
+            foreach (Expression<Func<T, object>> includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
             }
@@ -56,7 +56,7 @@ namespace CollegeFootballApp.Infrastructure.Repositories
             return await query.FirstOrDefaultAsync(predicate);
         }
 
-        public virtual async Task<T> Get(int id)
+        public virtual async Task<T> GetByIdAsync(int id)
         {
 
             var item = await _context.Set<T>().FindAsync(id);
@@ -64,7 +64,7 @@ namespace CollegeFootballApp.Infrastructure.Repositories
 
         }
 
-        public virtual async Task<T> Get(Guid id)
+        public virtual async Task<T> GetByIdAsync(Guid id)
         {
 
             var item = await _context.Set<T>().FindAsync(id);
@@ -73,7 +73,7 @@ namespace CollegeFootballApp.Infrastructure.Repositories
         }
 
 
-        public virtual async Task<T> Get(string id)
+        public virtual async Task<T> GetByIdAsync(string id)
         {
 
             var item = await _context.Set<T>().FindAsync(id);
@@ -81,12 +81,12 @@ namespace CollegeFootballApp.Infrastructure.Repositories
 
         }
 
-        public virtual async Task SaveChanges()
+        public virtual async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
 
-        public virtual async Task<T> Update(T entity)
+        public virtual async Task<T> UpdateAsync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             return await Task.Run(() => entity);

@@ -4,20 +4,20 @@ namespace CollegeFootballApp.Application.Infrastructure
 {
     public interface IRepository<T>
     {
-        Task<T> Add(T entity);
-        Task<T> Update(T entity);
-        Task<T> Get(int id);
+        Task<T> AddAsync(T entity);
+        Task<T> UpdateAsync(T entity);
+        Task<T> GetByIdAsync(int id);
 
-        Task<T> Get(string id);
+        Task<T> GetByIdAsync(string id);
 
-        Task<T> Get(Guid id);
-        Task<IEnumerable<T>> All();
-        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
+        Task<T> GetByIdAsync(Guid id);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> FindCollectionAsync(Expression<Func<T, bool>> predicate);
 
-        Task<T> FindSingle(Expression<Func<T, bool>> predicate);
-        Task<T> FindSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
+        Task<T> FindSingleAsync(Expression<Func<T, bool>> predicate);
+        Task<T> FindSingleAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         void Delete(T entity);
         void BulkInsert(IEnumerable<T> entities);
-        Task SaveChanges();
+        Task SaveChangesAsync();
     }
 }

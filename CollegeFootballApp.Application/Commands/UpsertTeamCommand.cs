@@ -1,4 +1,5 @@
-﻿using CollegeFootballApp.Domain.Entities;
+﻿using CollegeFootballApp.Application.Models.Dtos;
+using CollegeFootballApp.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,13 @@ using System.Threading.Tasks;
 
 namespace CollegeFootballApp.Application.Commands
 {
-    public class UpsertTeamCommand : IRequest<Team>
+    public class UpsertTeamCommand : IRequest<bool>
     {
-        public TeamUpsertDto TeamDto { get; set; }
+        public string FilePath { get; set; }
 
-        public UpsertTeamCommand(TeamUpsertDto teamDto)
+        public UpsertTeamCommand(string filePath)
         {
-            TeamDto = teamDto;
+            FilePath = filePath;
         }
     }
-
 }
