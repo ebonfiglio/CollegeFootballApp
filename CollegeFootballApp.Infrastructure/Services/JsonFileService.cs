@@ -7,19 +7,31 @@ namespace CollegeFootballApp.Infrastructure.Services
 {
     public class JsonFileService : IReadFileService
     {
-        private readonly JsonSerializerSettings _jsonSettings = new()
-        {
-            ContractResolver = new SpacePropertyNameResolver()
-        };
         public JsonFileService()
         {
         }
-        public List<GameDto> ReadFile(string filePath)
+        public List<T> ReadFile<T>(string filePath)
         {
-            using StreamReader reader = new(filePath);
-            string jsonString = reader.ReadToEnd();
-            List<GameDto>? data = JsonConvert.DeserializeObject<List<GameDto>>(jsonString, _jsonSettings);
-            return data;
+            try
+            {
+                using StreamReader reader = new StreamReader(filePath);
+                string jsonString = reader.ReadToEnd();
+                List<T> data = JsonConvert.DeserializeObject<List<T>>(jsonString);
+                return data;
+            }
+            catch (JsonException jsonEx)
+            {
+                // Handle JSON-specific exceptions
+                Console.WriteLine("JSON Exception: " + jsonEx.Message);
+            }
+            catch (Exception ex)
+            {
+                // Handle any other exceptions
+                Console.WriteLine("General Exception: " + ex.Message);
+            }
+            return new List<T>();
         }
+
+
     }
 }

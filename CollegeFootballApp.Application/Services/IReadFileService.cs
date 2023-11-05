@@ -9,6 +9,7 @@ namespace CollegeFootballApp.Application.Services
 {
     public interface IReadFileService
     {
-        List<GameDto> ReadFile(string filePath);
+        List<T> ReadFile<T>(string filePath);
     }
+
 }

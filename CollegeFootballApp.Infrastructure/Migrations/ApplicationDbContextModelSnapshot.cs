@@ -44,10 +44,7 @@ namespace CollegeFootballApp.Infrastructure.Migrations
             modelBuilder.Entity("CollegeFootballApp.Domain.Entities.Game", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("Attendance")
                         .HasColumnType("int");
@@ -174,10 +171,7 @@ namespace CollegeFootballApp.Infrastructure.Migrations
             modelBuilder.Entity("CollegeFootballApp.Domain.Entities.Venue", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("Capacity")
                         .HasColumnType("int");
@@ -248,17 +242,6 @@ namespace CollegeFootballApp.Infrastructure.Migrations
                     b.Navigation("HomeTeamConference");
 
                     b.Navigation("Venue");
-                });
-
-            modelBuilder.Entity("CollegeFootballApp.Domain.Entities.Team", b =>
-                {
-                    b.HasOne("CollegeFootballApp.Domain.Entities.Venue", "Location")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("CollegeFootballApp.Domain.Entities.TeamConference", b =>

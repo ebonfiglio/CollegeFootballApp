@@ -32,11 +32,13 @@ namespace CollegeFootballApp.Application.Handlers
             List<Game> games = new();
             foreach (GameDto dto in gameDTOs)
             {
-                var game = await MapDtoToGame(dto);
-                games.Add(game);
+                Game game = await MapDtoToGame(dto);
+                await _unitOfWork.GameRepository.Add(game);
+                _unitOfWork.SaveChanges();
+                //games.Add(game);
             }
-            _unitOfWork.GameRepository.BulkInsert(games);
-            _unitOfWork.SaveChanges();
+            //_unitOfWork.GameRepository.BulkInsert(games);
+            //_unitOfWork.SaveChanges();
         }
 
         private async Task<Game> MapDtoToGame(GameDto dto)
@@ -61,7 +63,7 @@ namespace CollegeFootballApp.Application.Handlers
 
             game.Venue = await ProcessVenue(dto);
             game.HomeTeamConference = await ProcessHomeTeamConference(dto);
-            game.AwayTeamConference = await ProcessAwayTeamConference(dto);
+            game.AwayTeamConference = await ProcessAwayTeamConference(dto, game.HomeTeamConference?.Conference);
 
             return game;
         }
@@ -75,6 +77,7 @@ namespace CollegeFootballApp.Application.Handlers
                 venue = new Venue { Id = dto.VenueId, Name = dto.Venue };
                 await _unitOfWork.VenueRepository.Add(venue);
             }
+            _unitOfWork.SaveChanges();
             return venue;
         }
 
@@ -93,6 +96,7 @@ namespace CollegeFootballApp.Application.Handlers
                 {
                     homeTeam = new Team { Id = dto.HomeId, School = dto.HomeTeam };
                     await _unitOfWork.TeamRepository.Add(homeTeam);
+                    _unitOfWork.SaveChanges();
                 }
 
                 Conference homeConference = await _unitOfWork.ConferenceRepository.FindSingle(c => c.Name == dto.HomeConference);
@@ -100,42 +104,58 @@ namespace CollegeFootballApp.Application.Handlers
                 {
                     homeConference = new Conference { Name = dto.HomeConference };
                     await _unitOfWork.ConferenceRepository.Add(homeConference);
+                    _unitOfWork.SaveChanges();
                 }
 
                 homeTeamConference = new TeamConference { TeamId = dto.HomeId, ConferenceName = homeConference.Name };
                 await _unitOfWork.TeamConferenceRepository.Add(homeTeamConference);
+                _unitOfWork.SaveChanges();
             }
             return homeTeamConference;
         }
 
-        private async Task<TeamConference> ProcessAwayTeamConference(GameDto dto)
+        private async Task<TeamConference> ProcessAwayTeamConference(GameDto dto, Conference homeConference)
         {
-            // Handling Away TeamConference association
-            TeamConference AwayTeamConference = await _unitOfWork.TeamConferenceRepository.FindSingle(
-     tc => tc.TeamId == dto.AwayId && tc.Conference.Name == dto.AwayConference,
-     tc => tc.Team,
-     tc => tc.Conference);
-
-            if (AwayTeamConference == null)
+            // Always handle the away team logic.
+            Team awayTeam = await _unitOfWork.TeamRepository.FindSingle(t => t.Id == dto.AwayId);
+            if (awayTeam == null)
             {
-                Team AwayTeam = await _unitOfWork.TeamRepository.FindSingle(t => t.Id == dto.AwayId);
-                if (AwayTeam == null)
-                {
-                    AwayTeam = new Team { Id = dto.AwayId, School = dto.AwayTeam };
-                    await _unitOfWork.TeamRepository.Add(AwayTeam);
-                }
-
-                Conference AwayConference = await _unitOfWork.ConferenceRepository.FindSingle(c => c.Name == dto.AwayConference);
-                if (AwayConference == null)
-                {
-                    AwayConference = new Conference { Name = dto.AwayConference };
-                    await _unitOfWork.ConferenceRepository.Add(AwayConference);
-                }
-
-                AwayTeamConference = new TeamConference { TeamId = dto.AwayId, ConferenceName = AwayConference.Name };
-                await _unitOfWork.TeamConferenceRepository.Add(AwayTeamConference);
+                awayTeam = new Team { Id = dto.AwayId, School = dto.AwayTeam };
+                await _unitOfWork.TeamRepository.Add(awayTeam);
+                _unitOfWork.SaveChanges();
             }
-            return AwayTeamConference;
+
+            // Check if the away conference is the same as the home conference.
+            Conference awayConference;
+            if (dto.AwayConference == dto.HomeConference)
+            {
+                // If the same, reuse the home conference entity.
+                awayConference = homeConference;
+            }
+            else
+            {
+                // If different, fetch or create the away conference.
+                awayConference = await _unitOfWork.ConferenceRepository.FindSingle(c => c.Name == dto.AwayConference);
+                if (awayConference == null)
+                {
+                    awayConference = new Conference { Name = dto.AwayConference };
+                    await _unitOfWork.ConferenceRepository.Add(awayConference);
+                    _unitOfWork.SaveChanges();
+                }
+            }
+
+            // Create or find the away team conference association.
+            TeamConference awayTeamConference = await _unitOfWork.TeamConferenceRepository.FindSingle(
+                tc => tc.TeamId == dto.AwayId && tc.ConferenceName == awayConference.Name);
+
+            if (awayTeamConference == null)
+            {
+                awayTeamConference = new TeamConference { TeamId = dto.AwayId, ConferenceName = awayConference.Name };
+                await _unitOfWork.TeamConferenceRepository.Add(awayTeamConference);
+                _unitOfWork.SaveChanges();
+            }
+
+            return awayTeamConference;
         }
 
     }

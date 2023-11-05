@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollegeFootballApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231104212028_keyfixes")]
-    partial class keyfixes
+    [Migration("20231105193049_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,10 +47,7 @@ namespace CollegeFootballApp.Infrastructure.Migrations
             modelBuilder.Entity("CollegeFootballApp.Domain.Entities.Game", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("Attendance")
                         .HasColumnType("int");
@@ -177,10 +174,7 @@ namespace CollegeFootballApp.Infrastructure.Migrations
             modelBuilder.Entity("CollegeFootballApp.Domain.Entities.Venue", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("Capacity")
                         .HasColumnType("int");

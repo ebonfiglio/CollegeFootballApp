@@ -20,7 +20,6 @@ namespace CollegeFootballApp.Domain.Entities
         public string? AltColor { get; set; }
         public string? Logos { get; set; }
         public string? Twitter { get; set; }
-        public Venue? Location { get; set; }
     }
 
 }

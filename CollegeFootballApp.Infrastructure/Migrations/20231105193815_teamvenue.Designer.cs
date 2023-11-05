@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollegeFootballApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231104192155_init")]
-    partial class init
+    [Migration("20231105193815_teamvenue")]
+    partial class teamvenue
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,29 +27,19 @@ namespace CollegeFootballApp.Infrastructure.Migrations
 
             modelBuilder.Entity("CollegeFootballApp.Domain.Entities.Conference", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Abbreviation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Classification")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShortName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name");
 
                     b.ToTable("Conferences");
                 });
@@ -57,57 +47,53 @@ namespace CollegeFootballApp.Infrastructure.Migrations
             modelBuilder.Entity("CollegeFootballApp.Domain.Entities.Game", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("Attendance")
                         .HasColumnType("int");
 
-                    b.Property<int>("AwayConferenceId")
-                        .HasColumnType("int");
+                    b.Property<string>("AwayConferenceName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AwayTeamId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Completed")
+                    b.Property<bool?>("Completed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("ConferenceGame")
+                    b.Property<bool?>("ConferenceGame")
                         .HasColumnType("bit");
 
-                    b.Property<float>("ExcitementIndex")
+                    b.Property<float?>("ExcitementIndex")
                         .HasColumnType("real");
 
                     b.Property<string>("Highlights")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HomeConferenceId")
+                    b.Property<string>("HomeConferenceName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("HomeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HomeTeamId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("NeutralSite")
+                    b.Property<bool?>("NeutralSite")
                         .HasColumnType("bit");
 
                     b.Property<string>("Notes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Season")
                         .HasColumnType("int");
 
                     b.Property<string>("SeasonType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("StartTimeTbd")
+                    b.Property<bool?>("StartTimeTbd")
                         .HasColumnType("bit");
 
                     b.Property<int>("VenueId")
@@ -120,9 +106,9 @@ namespace CollegeFootballApp.Infrastructure.Migrations
 
                     b.HasIndex("VenueId");
 
-                    b.HasIndex("AwayTeamId", "AwayConferenceId");
+                    b.HasIndex("AwayTeamId", "AwayConferenceName");
 
-                    b.HasIndex("HomeTeamId", "HomeConferenceId");
+                    b.HasIndex("HomeId", "HomeConferenceName");
 
                     b.ToTable("Games");
                 });
@@ -133,47 +119,36 @@ namespace CollegeFootballApp.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Abbreviation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AltColor")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AltName1")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AltName2")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AltName3")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Classification")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Color")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Logos")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mascot")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("School")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Twitter")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -186,18 +161,12 @@ namespace CollegeFootballApp.Infrastructure.Migrations
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ConferenceId")
-                        .HasColumnType("int");
+                    b.Property<string>("ConferenceName")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.HasKey("TeamId", "ConferenceName");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("TeamId", "ConferenceId");
-
-                    b.HasIndex("ConferenceId");
+                    b.HasIndex("ConferenceName");
 
                     b.ToTable("TeamConferences");
                 });
@@ -205,54 +174,45 @@ namespace CollegeFootballApp.Infrastructure.Migrations
             modelBuilder.Entity("CollegeFootballApp.Domain.Entities.Venue", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Capacity")
+                    b.Property<int?>("Capacity")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CountryCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Dome")
+                    b.Property<bool?>("Dome")
                         .HasColumnType("bit");
 
-                    b.Property<float>("Elevation")
+                    b.Property<float?>("Elevation")
                         .HasColumnType("real");
 
-                    b.Property<bool>("Grass")
+                    b.Property<bool?>("Grass")
                         .HasColumnType("bit");
 
-                    b.Property<float>("Latitude")
+                    b.Property<float?>("Latitude")
                         .HasColumnType("real");
 
-                    b.Property<float>("Longitude")
+                    b.Property<float?>("Longitude")
                         .HasColumnType("real");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Timezone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("YearConstructed")
+                    b.Property<int?>("YearConstructed")
                         .HasColumnType("int");
 
                     b.Property<string>("Zip")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -270,13 +230,13 @@ namespace CollegeFootballApp.Infrastructure.Migrations
 
                     b.HasOne("CollegeFootballApp.Domain.Entities.TeamConference", "AwayTeamConference")
                         .WithMany()
-                        .HasForeignKey("AwayTeamId", "AwayConferenceId")
+                        .HasForeignKey("AwayTeamId", "AwayConferenceName")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CollegeFootballApp.Domain.Entities.TeamConference", "HomeTeamConference")
                         .WithMany()
-                        .HasForeignKey("HomeTeamId", "HomeConferenceId")
+                        .HasForeignKey("HomeId", "HomeConferenceName")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -287,22 +247,11 @@ namespace CollegeFootballApp.Infrastructure.Migrations
                     b.Navigation("Venue");
                 });
 
-            modelBuilder.Entity("CollegeFootballApp.Domain.Entities.Team", b =>
-                {
-                    b.HasOne("CollegeFootballApp.Domain.Entities.Venue", "Location")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Location");
-                });
-
             modelBuilder.Entity("CollegeFootballApp.Domain.Entities.TeamConference", b =>
                 {
                     b.HasOne("CollegeFootballApp.Domain.Entities.Conference", "Conference")
                         .WithMany()
-                        .HasForeignKey("ConferenceId")
+                        .HasForeignKey("ConferenceName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

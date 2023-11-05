@@ -21,17 +21,33 @@ namespace CollegeFootballApp.Infrastructure
             modelBuilder.Entity<Conference>()
                 .HasKey(c => c.Name);
 
+            modelBuilder.Entity<Conference>()
+.Property(c => c.Name)
+.ValueGeneratedNever();
+
             modelBuilder.Entity<Game>()
                 .HasKey(g => g.Id);
+            modelBuilder.Entity<Game>()
+.Property(g => g.Id)
+.ValueGeneratedNever();
 
             modelBuilder.Entity<Team>()
                 .HasKey(t => t.Id);
 
+            modelBuilder.Entity<Team>()
+.Property(t => t.Id)
+.ValueGeneratedNever();
+
             modelBuilder.Entity<TeamConference>()
                 .HasKey(tc => new { tc.TeamId, tc.ConferenceName });
 
+
             modelBuilder.Entity<Venue>()
                 .HasKey(v => v.Id);
+
+            modelBuilder.Entity<Venue>()
+       .Property(v => v.Id)
+       .ValueGeneratedNever();
 
             // Setting up relationships
 
@@ -66,11 +82,6 @@ namespace CollegeFootballApp.Infrastructure
                 .WithMany()
                 .HasForeignKey(tc => tc.ConferenceName);
 
-            // Team to Venue relationship (Location)
-            modelBuilder.Entity<Team>()
-                .HasOne(t => t.Location)
-                .WithMany()
-                .HasForeignKey(t => t.Id);
 
             base.OnModelCreating(modelBuilder);
         }

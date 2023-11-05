@@ -35,7 +35,7 @@ var mediator = serviceProvider.GetService<IMediator>();
 while (true)
 {
     Console.WriteLine("Menu:");
-    Console.WriteLine("1. Process Games CSV");
+    Console.WriteLine("1. Process JSON file");
     Console.WriteLine("2. Exit");
     Console.Write("Select an option (1/2): ");
 
