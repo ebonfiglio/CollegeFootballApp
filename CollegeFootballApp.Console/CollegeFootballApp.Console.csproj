@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CFBSharp" Version="4.5.1" />
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="MediatR" Version="12.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
