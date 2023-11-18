@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CFBSharp.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace CollegeFootballApp.Application.Services
 {
     public interface ICollegeFootballApiService
     {
-        Task GetFBSGames(int startYear, int endYear);
+        Task<List<Game>> GetFBSGames(int startYear, int endYear);
     }
 }

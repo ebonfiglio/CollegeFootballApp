@@ -1,5 +1,7 @@
+using CFBSharp.Client;
 using CollegeFootballApp.Blazor.Data;
 using CollegeFootballApp.Infrastructure;
+using CollegeFootballApp.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +9,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-var configBuilder = new ConfigurationBuilder()
+
+IConfigurationBuilder configBuilder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true);
@@ -17,6 +20,10 @@ IConfiguration configuration = configBuilder.Build();
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+CFBDApiSettings cfbdApiSettings = new();
+configuration.GetSection("CFBDApiSettings").Bind(cfbdApiSettings);
+builder.Services.AddSingleton(cfbdApiSettings);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
