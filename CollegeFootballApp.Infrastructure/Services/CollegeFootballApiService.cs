@@ -23,7 +23,7 @@ namespace CollegeFootballApp.Infrastructure.Services
                 BasePath = "https://api.collegefootballdata.com",
                 ApiKey = new Dictionary<string, string>
                 {
-                    ["Your_Api_Key_Header"] = settings.ApiKey
+                    ["Api_Key"] = settings.ApiKey
                 }
             };
 
