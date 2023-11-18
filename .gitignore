@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /CollegeFootballApp.Blazor/appsettings.json
 /CollegeFootballApp.Console/appsettings.json
+/CollegeFootballApp.Blazor/appsettings.json
+/CollegeFootballApp.Blazor/appsettings.Development.json
