@@ -27,7 +27,7 @@ namespace CollegeFootballApp.Infrastructure.Services
             }
             catch (Exception ex)
             {
-
+                throw;
             }
         }
         private async Task SaveGame(GameDto dto)
@@ -104,6 +104,8 @@ namespace CollegeFootballApp.Infrastructure.Services
         private async Task<TeamConference> ProcessHomeTeamConference(GameDto dto)
         {
             // Handling Home TeamConference association
+            dto.HomeConference = string.IsNullOrWhiteSpace(dto.HomeConference) ? "UNKNOWN" : dto.HomeConference;
+
             TeamConference homeTeamConference = await _unitOfWork.TeamConferenceRepository.FindSingleAsync(
      tc => tc.TeamId == dto.HomeId && tc.Conference.Name == dto.HomeConference,
      tc => tc.Team,
@@ -119,10 +121,11 @@ namespace CollegeFootballApp.Infrastructure.Services
                     _unitOfWork.SaveChanges();
                 }
 
+               
                 Conference homeConference = await _unitOfWork.ConferenceRepository.FindSingleAsync(c => c.Name == dto.HomeConference);
                 if (homeConference == null)
                 {
-                    homeConference = new Conference { Name = string.IsNullOrEmpty(dto.HomeConference) ? "UNKNOWN" : dto.HomeConference };
+                    homeConference = new Conference { Name = dto.HomeConference };
                     await _unitOfWork.ConferenceRepository.AddAsync(homeConference);
                     _unitOfWork.SaveChanges();
                 }
@@ -145,6 +148,7 @@ namespace CollegeFootballApp.Infrastructure.Services
                 _unitOfWork.SaveChanges();
             }
 
+            dto.AwayConference = string.IsNullOrWhiteSpace(dto.AwayConference) ? "UNKNOWN" : dto.AwayConference;
             // Check if the away conference is the same as the home conference.
             Conference awayConference;
             if (dto.AwayConference == dto.HomeConference)
@@ -158,7 +162,7 @@ namespace CollegeFootballApp.Infrastructure.Services
                 awayConference = await _unitOfWork.ConferenceRepository.FindSingleAsync(c => c.Name == dto.AwayConference);
                 if (awayConference == null)
                 {
-                    awayConference = new Conference { Name = string.IsNullOrEmpty(dto.AwayConference) ? "UNKNOWN" : dto.AwayConference };
+                    awayConference = new Conference { Name = dto.AwayConference };
                     await _unitOfWork.ConferenceRepository.AddAsync(awayConference);
                     _unitOfWork.SaveChanges();
                 }
