@@ -3,12 +3,6 @@ using CFBSharp.Client;
 using CFBSharp.Model;
 using CollegeFootballApp.Application.Services;
 using CollegeFootballApp.Shared.Models;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollegeFootballApp.Infrastructure.Services
 {
@@ -23,7 +17,7 @@ namespace CollegeFootballApp.Infrastructure.Services
                 BasePath = "https://api.collegefootballdata.com",
                 ApiKey = new Dictionary<string, string>
                 {
-                    ["Api_Key"] = settings.ApiKey
+                    ["Authorization"] = settings.ApiKey
                 }
             };
 

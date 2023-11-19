@@ -17,6 +17,7 @@ services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UpsertTeamCom
 services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetFBSGamesCommand).Assembly));
 
 services.AddTransient<IReadFileService, JsonFileService>();
+services.AddTransient<IGameService, GameService>();
 services.AddTransient<ICollegeFootballApiService, CollegeFootballApiService>();
 services.AddTransient<IUnitOfWork, UnitOfWork>();
 
