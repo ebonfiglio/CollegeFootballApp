@@ -15,11 +15,9 @@ namespace CollegeFootballApp.Infrastructure.Services
             var configuration = new Configuration
             {
                 BasePath = "https://api.collegefootballdata.com",
-                ApiKey = new Dictionary<string, string>
-                {
-                    ["Authorization"] = settings.ApiKey
-                }
             };
+            configuration.ApiKey.Add("Authorization", settings.ApiKey);
+            configuration.ApiKeyPrefix.Add("Authorization", "Bearer");
 
             _gamesApi = new GamesApi(configuration);
         }
@@ -32,7 +30,7 @@ namespace CollegeFootballApp.Infrastructure.Services
             {
                 try
                 {
-                    ICollection<Game> games = await _gamesApi.GetGamesAsync(year: year, seasonType: "regular");
+                    ICollection<Game> games = await _gamesApi.GetGamesAsync(year: year, seasonType: "regular", division:"fbs");
 
                     fbsGames.AddRange(games);
                 }
@@ -44,13 +42,6 @@ namespace CollegeFootballApp.Infrastructure.Services
             }
 
             return fbsGames;
-        }
-
-        private IEnumerable<Game> FilterFBSGames(List<Game> games)
-        {
-            // Implement logic to filter only FBS games.
-            // This might involve checking certain properties of the Game model.
-            return games; // Placeholder
         }
     }
 }

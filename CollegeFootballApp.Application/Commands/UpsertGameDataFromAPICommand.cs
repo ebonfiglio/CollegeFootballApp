@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace CollegeFootballApp.Application.Commands
 {
-    public class GetFBSGamesCommand : IRequest<bool>
+    public class UpsertGameDataFromAPICommand : IRequest<bool>
     {
         public int StartYear { get; }
         public int EndYear { get; }
 
-        public GetFBSGamesCommand(int startYear, int endYear)
+        public UpsertGameDataFromAPICommand(int startYear, int endYear)
         {
             StartYear = startYear;
             EndYear = endYear;

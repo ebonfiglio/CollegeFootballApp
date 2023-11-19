@@ -3,6 +3,7 @@ using CollegeFootballApp.Application.Handlers;
 using CollegeFootballApp.Application.Infrastructure;
 using CollegeFootballApp.Application.Services;
 using CollegeFootballApp.Infrastructure;
+using CollegeFootballApp.Infrastructure.Mapper;
 using CollegeFootballApp.Infrastructure.Services;
 using CollegeFootballApp.Shared.Models;
 using MediatR;
@@ -14,12 +15,14 @@ var services = new ServiceCollection();
 
 services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UploadGameDataFromCsvCommandHandler).Assembly));
 services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UpsertTeamCommandHandler).Assembly));
-services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetFBSGamesCommand).Assembly));
+services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UpsertGameDataFromAPICommand).Assembly));
 
 services.AddTransient<IReadFileService, JsonFileService>();
 services.AddTransient<IGameService, GameService>();
 services.AddTransient<ICollegeFootballApiService, CollegeFootballApiService>();
 services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -97,7 +100,7 @@ while (true)
                 Console.Write("Enter the end year: ");
                 int endYear = int.Parse(Console.ReadLine());
 
-                GetFBSGamesCommand getFbsGamesCommand = new(startYear, endYear);
+                UpsertGameDataFromAPICommand getFbsGamesCommand = new(startYear, endYear);
                 bool gamesResult = await mediator.Send(getFbsGamesCommand);
 
                 if (gamesResult)
