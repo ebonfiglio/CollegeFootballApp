@@ -51,6 +51,28 @@ namespace CollegeFootballApp.Infrastructure.Services
                 game.ExcitementIndex = dto.ExcitementIndex.HasValue ? (float)dto.ExcitementIndex : 0;
                 game.Highlights = dto.Highlights;
                 game.Notes = dto.Notes;
+                game.HomeDivision = dto.HomeDivision;
+                game.HomePoints = dto.HomePoints;
+
+                if (dto.HomeLineScores?.Any() == true)
+                {
+                    game.HomeLineScores = string.Join(",",dto.HomeLineScores);
+                }
+
+                game.HomePostWinProb = dto.HomePostWinProb;
+                game.HomePregameElo = dto.HomePregameElo;
+                game.HomePostgameElo = dto.HomePostgameElo;
+                game.AwayDivision = dto.AwayDivision;
+                game.AwayPoints = dto.AwayPoints;
+
+                if (dto.AwayLineScores?.Any() == true)
+                {
+                    game.AwayLineScores = string.Join(",", dto.AwayLineScores);
+                }
+
+                game.AwayPostWinProb = dto.AwayPostWinProb;
+                game.AwayPregameElo = dto.AwayPregameElo;
+                game.AwayPostgameElo = dto.AwayPostgameElo;
 
                 game.Venue = await ProcessVenue(dto);
                 game.HomeTeamConference = await ProcessHomeTeamConference(dto);
@@ -74,6 +96,28 @@ namespace CollegeFootballApp.Infrastructure.Services
                 game.ExcitementIndex = dto.ExcitementIndex.HasValue ? (float)dto.ExcitementIndex : 0;
                 game.Highlights = dto.Highlights;
                 game.Notes = dto.Notes;
+                game.HomeDivision = dto.HomeDivision;
+                game.HomePoints = dto.HomePoints;
+
+                if (dto.HomeLineScores?.Any() == true)
+                {
+                    game.HomeLineScores = string.Join(",", dto.HomeLineScores);
+                }
+
+                game.HomePostWinProb = dto.HomePostWinProb;
+                game.HomePregameElo = dto.HomePregameElo;
+                game.HomePostgameElo = dto.HomePostgameElo;
+                game.AwayDivision = dto.AwayDivision;
+                game.AwayPoints = dto.AwayPoints;
+
+                if (dto.AwayLineScores?.Any() == true)
+                {
+                    game.AwayLineScores = string.Join(",", dto.AwayLineScores);
+                }
+
+                game.AwayPostWinProb = dto.AwayPostWinProb;
+                game.AwayPregameElo = dto.AwayPregameElo;
+                game.AwayPostgameElo = dto.AwayPostgameElo;
 
                 game.Venue = await ProcessVenue(dto);
                 game.HomeTeamConference = await ProcessHomeTeamConference(dto);

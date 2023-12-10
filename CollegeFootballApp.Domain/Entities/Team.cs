@@ -1,12 +1,14 @@
-﻿using System;
+﻿using CollegeFootballApp.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CollegeFootballApp.Domain.Entities
 {
-    public class Team
+    public class Team : IHeadToHeadCompetitor
     {
         public int Id { get; set; }
         public string? School { get; set; }
@@ -20,6 +22,9 @@ namespace CollegeFootballApp.Domain.Entities
         public string? AltColor { get; set; }
         public string? Logos { get; set; }
         public string? Twitter { get; set; }
+
+        [NotMapped]
+        public string Identifier => Id.ToString();
     }
 
 }

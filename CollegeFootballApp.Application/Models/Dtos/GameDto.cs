@@ -52,7 +52,6 @@ namespace CollegeFootballApp.Application.Models.Dtos
         [JsonProperty("Home Points")]
         public int? HomePoints { get; set; }
 
-        // Assuming HomeLineScores is an array in the JSON, but if it's not, you would need to individually map each one as was shown previously.
         [JsonProperty("Home Line Scores")]
         public List<int>? HomeLineScores { get; set; }
 

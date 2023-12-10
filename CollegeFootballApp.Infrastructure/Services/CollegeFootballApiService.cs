@@ -30,7 +30,7 @@ namespace CollegeFootballApp.Infrastructure.Services
             {
                 try
                 {
-                    ICollection<Game> games = await _gamesApi.GetGamesAsync(year: year, seasonType: "regular", division:"fbs");
+                    ICollection<Game> games = await _gamesApi.GetGamesAsync(year: year, seasonType: "postseason", division:"fbs");
 
                     fbsGames.AddRange(games);
                 }

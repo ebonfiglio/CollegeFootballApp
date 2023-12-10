@@ -33,5 +33,29 @@ namespace CollegeFootballApp.Domain.Entities
         public float? ExcitementIndex { get; set; }
         public string? Highlights { get; set; }
         public string? Notes { get; set; }
+
+        public string? HomeDivision { get; set; }
+
+        public int? HomePoints { get; set; }
+
+        public string? HomeLineScores { get; set; }
+
+        public double? HomePostWinProb { get; set; }
+
+        public int? HomePregameElo { get; set; }
+
+        public int? HomePostgameElo { get; set; }
+
+        public string? AwayDivision { get; set; }
+
+        public int? AwayPoints { get; set; }
+
+        public string? AwayLineScores { get; set; }
+
+        public double? AwayPostWinProb { get; set; }
+
+        public int? AwayPregameElo { get; set; }
+
+        public int? AwayPostgameElo { get; set; }
     }
 }

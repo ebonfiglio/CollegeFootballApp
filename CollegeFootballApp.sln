@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeFootballApp.Applicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeFootballApp.Infrastructure", "CollegeFootballApp.Infrastructure\CollegeFootballApp.Infrastructure.csproj", "{E5B75BD8-4354-4D61-B43A-24FCB7E15E5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollegeFootballApp.Shared", "CollegeFootballApp.Shared\CollegeFootballApp.Shared.csproj", "{90490804-BADC-4325-972F-CC8E1C5FBD18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeFootballApp.Shared", "CollegeFootballApp.Shared\CollegeFootballApp.Shared.csproj", "{90490804-BADC-4325-972F-CC8E1C5FBD18}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "collegefootballapp.vue", "CollegeFootballApp.Vue\collegefootballapp.vue.esproj", "{B4EED6CA-D967-4BC3-BDC2-8EE9F5748C7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,12 @@ Global
 		{90490804-BADC-4325-972F-CC8E1C5FBD18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90490804-BADC-4325-972F-CC8E1C5FBD18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90490804-BADC-4325-972F-CC8E1C5FBD18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4EED6CA-D967-4BC3-BDC2-8EE9F5748C7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4EED6CA-D967-4BC3-BDC2-8EE9F5748C7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4EED6CA-D967-4BC3-BDC2-8EE9F5748C7F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B4EED6CA-D967-4BC3-BDC2-8EE9F5748C7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4EED6CA-D967-4BC3-BDC2-8EE9F5748C7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4EED6CA-D967-4BC3-BDC2-8EE9F5748C7F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
