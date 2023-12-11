@@ -8,8 +8,10 @@ namespace CollegeFootballApp.Domain.Models.Dtos
 {
     public class HeadToHeadRecordDto
     {
+        public string Competitor1 { get; set; }
+        public string Competitor2 { get; set; }
         public int Wins { get; set; }
         public int Losses { get; set; }
-        public int Ties { get; set; }
+        public int Draws { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CollegeFootballApp.Application.Models.Dtos;
+using CollegeFootballApp.Domain.Models.Dtos;
 using MediatR;
 using System;
 using System.Collections.Generic;

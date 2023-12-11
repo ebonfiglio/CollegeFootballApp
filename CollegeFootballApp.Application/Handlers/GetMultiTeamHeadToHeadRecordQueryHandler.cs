@@ -2,6 +2,8 @@
 using CollegeFootballApp.Application.Models.Dtos;
 using CollegeFootballApp.Application.Queries;
 using CollegeFootballApp.Application.Services;
+using CollegeFootballApp.Domain.Models.Dtos;
+using CollegeFootballApp.Domain.Services.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;

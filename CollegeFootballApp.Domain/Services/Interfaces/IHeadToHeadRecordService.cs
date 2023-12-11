@@ -1,4 +1,5 @@
 ﻿using CollegeFootballApp.Domain.Entities;
+using CollegeFootballApp.Domain.Interfaces;
 using CollegeFootballApp.Domain.Models.Dtos;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace CollegeFootballApp.Domain.Services.Interfaces
 {
     public interface IHeadToHeadRecordService
     {
-        Task<Dictionary<string, Dictionary<string, HeadToHeadRecordDto>>>
-            CalculateMultiCompetitorHeadToHeadRecordAsync<T>(List<Game> games, List<T> competitors);
+        Dictionary<string, Dictionary<string, HeadToHeadRecordDto>> CalculateMultiCompetitorHeadToHeadRecordAsync<T>(
+            List<Game> games, List<T> competitors) where T : IHeadToHeadCompetitor;
     }
 }
